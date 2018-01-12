@@ -1,0 +1,27 @@
+﻿{
+    // ACTION REQUIRED: This file was automatically added to your project, but it
+    // will not take effect until additional steps are taken to enable it. See the
+    // following page for additional information:
+    //
+    // https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/EnableConfiguration.md
+
+    "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+    "settings": {
+        "documentationRules": {
+            "companyName": "Dominik Steffen",
+            "copyrightText": "Software is not for free use. If you want to use it please contact me at dominik.steffen@gmail.com",
+            "documentationCulture": "en-US",
+            "xmlHeader": true,
+            "headerDecoration": "Created by {ownerName} for {customerName}. Contact me at {contactMail}. Created in {lastEditDate}. {licence}",
+            "fileNamingConvention": "stylecop",
+            "variables": {
+                "ownerName": "Dominik Steffen",
+                "contactMail": "dominik.steffen@gmail.com",
+                "customerName": "myself",
+                "lastEditDate": "2017",
+                "licence": "Please contact me if you want to use this software."
+            }
+
+        }
+    }
+}
