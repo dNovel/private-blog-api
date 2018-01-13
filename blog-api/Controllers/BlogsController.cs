@@ -12,6 +12,7 @@ namespace BlogAPI.Controllers
     using BlogAPI.Models;
     using BlogAPI.Services;
     using BlogAPI.Services.Contracts;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Versioning;
     using Microsoft.Extensions.Logging;
@@ -38,30 +39,35 @@ namespace BlogAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             return this.Ok(await this.blogService.GetBlogs());
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> Get(int id)
         {
             return this.Ok(await this.blogService.GetBlog(id));
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Post([FromBody]Blog blogData)
         {
             return this.Ok(await this.blogService.CreateBlog(blogData));
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> Put(int id, [FromBody]Blog blogData)
         {
             return this.Ok(await this.blogService.UpdateBlog(blogData));
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             return this.Ok(await this.blogService.DeleteBlog(id));

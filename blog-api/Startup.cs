@@ -9,6 +9,7 @@ namespace BlogAPI
     using System.Linq;
     using System.Threading.Tasks;
     using BlogAPI.Database;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Versioning;
@@ -39,21 +40,40 @@ namespace BlogAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Configure environments
             if (this.HostingEnvironment.IsDevelopment())
             {
                 services.AddDbContext<BlogDbContext>(opt =>
-                    opt.UseSqlServer(this.Configuration.GetConnectionString("DbConnection")));
+                {
+                    opt.UseSqlServer(this.Configuration.GetConnectionString("DbConnection"));
+                });
             }
             else if (this.HostingEnvironment.IsStaging())
             {
                 services.AddDbContext<BlogDbContext>(opt =>
-                    opt.UseSqlServer(this.Configuration.GetConnectionString("DbConnection")));
+                {
+                    opt.UseSqlServer(this.Configuration.GetConnectionString("DbConnection"));
+                });
             }
             else if (this.HostingEnvironment.IsProduction())
             {
                 services.AddDbContext<BlogDbContext>(opt =>
-                    opt.UseSqlServer(this.Configuration.GetConnectionString("DbConnection")));
+                {
+                    opt.UseSqlServer(this.Configuration.GetConnectionString("DbConnection"));
+                });
             }
+
+            // Configure authentication
+            string domain = $"https://{this.Configuration["Auth0:Domain"]}";
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(opt =>
+            {
+                opt.Authority = domain;
+                opt.Audience = this.Configuration["Auth0:ApiIdentifier"];
+            });
 
             services.AddApiVersioning();
             services.AddMvc();
@@ -71,6 +91,7 @@ namespace BlogAPI
             loggerFactory.AddNLog();
             app.AddNLogWeb();
 
+            app.UseAuthentication();
             app.UseMvc();
         }
     }
