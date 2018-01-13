@@ -39,35 +39,35 @@ namespace BlogAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize("read:blog")]
         public async Task<IActionResult> Get()
         {
             return this.Ok(await this.blogService.GetBlogs());
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize("read:blog")]
         public async Task<IActionResult> Get(int id)
         {
             return this.Ok(await this.blogService.GetBlog(id));
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize("write:blog")]
         public async Task<IActionResult> Post([FromBody]Blog blogData)
         {
             return this.Ok(await this.blogService.CreateBlog(blogData));
         }
 
         [HttpPut("{id}")]
-        [Authorize]
+        [Authorize("write:blog")]
         public async Task<IActionResult> Put(int id, [FromBody]Blog blogData)
         {
             return this.Ok(await this.blogService.UpdateBlog(blogData));
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize("write:blog")]
         public async Task<IActionResult> Delete(int id)
         {
             return this.Ok(await this.blogService.DeleteBlog(id));

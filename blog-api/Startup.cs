@@ -8,8 +8,10 @@ namespace BlogAPI
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using BlogAPI.Authorization;
     using BlogAPI.Database;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Versioning;
@@ -74,6 +76,14 @@ namespace BlogAPI
                 opt.Authority = domain;
                 opt.Audience = this.Configuration["Auth0:ApiIdentifier"];
             });
+
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("read:blog", pol => pol.Requirements.Add(new HasScopeRequirement("read:blog", domain)));
+                opt.AddPolicy("write:blog", pol => pol.Requirements.Add(new HasScopeRequirement("write:blog", domain)));
+            });
+
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 
             services.AddApiVersioning();
             services.AddMvc();
