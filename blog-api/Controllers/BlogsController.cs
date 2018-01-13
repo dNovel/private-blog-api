@@ -8,9 +8,10 @@ namespace BlogAPI.Controllers
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using BlogAPI.Contracts;
     using BlogAPI.Database;
     using BlogAPI.Models;
+    using BlogAPI.Services;
+    using BlogAPI.Services.Contracts;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Versioning;
     using Microsoft.Extensions.Logging;

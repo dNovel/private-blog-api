@@ -1,4 +1,4 @@
-﻿// <copyright file="PostsController.cs" company="Dominik Steffen">
+﻿// <copyright file="MediaController.cs" company="Dominik Steffen">
 // Software is not for free use. If you want to use it please contact me at dominik.steffen@gmail.com
 // </copyright>
 
@@ -20,51 +20,51 @@ namespace BlogAPI.Controllers
 
     [ApiVersion("0.1")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class PostsController : Controller
+    public class MediaController : Controller
     {
         private readonly ILogger<BlogService> nLogger;
 
-        private IPostService postService;
+        private IMediaService mediaService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PostsController"/> class.
+        /// Initializes a new instance of the <see cref="MediaController"/> class.
         /// </summary>
         /// <param name="nLogger">The nLog instance</param>
         /// <param name="blogContext">The db context</param>
-        public PostsController(ILogger<BlogService> nLogger, BlogDbContext blogContext)
+        public MediaController(ILogger<BlogService> nLogger, BlogDbContext blogContext)
         {
             this.nLogger = nLogger;
-            this.postService = new PostService(this.nLogger, blogContext);
+            this.mediaService = new MediaService(this.nLogger, blogContext);
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return this.Ok(await this.postService.GetPosts());
+            return this.Ok(await this.mediaService.GetMedia());
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return this.Ok(await this.postService.GetPost(id));
+            return this.Ok(await this.mediaService.GetMedia(id));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Post postData)
+        public async Task<IActionResult> Post([FromBody]Media mediaData)
         {
-            return this.Ok(await this.postService.CreatePost(postData));
+            return this.Ok(await this.mediaService.CreateMedia(mediaData));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]Post postData)
+        public async Task<IActionResult> Put(int id, [FromBody]Media mediaData)
         {
-            return this.Ok(await this.postService.UpdatePost(postData));
+            return this.Ok(await this.mediaService.UpdateMedia(mediaData));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            return this.Ok(await this.postService.DeletePost(id));
+            return this.Ok(await this.mediaService.DeleteMedia(id));
         }
     }
 }
