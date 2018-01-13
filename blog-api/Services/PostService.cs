@@ -76,25 +76,22 @@ namespace BlogAPI.Services
             return await this.context.Posts.SingleAsync(b => b.Id == id);
         }
 
-        public async Task<List<Post>> GetPosts(int pageSize = 10, int page = 1)
+        public async Task<List<Post>> GetPosts(int pageSize = 10, int page = 0)
         {
-            var posts = await this.context.Posts.ToListAsync<Post>();
+            var postsCount = this.context.Posts.Count<Post>();
 
-            if (posts.Count == 0)
+            if (postsCount == 0)
             {
                 return null;
             }
-            else if (posts.Count <= pageSize)
+            else if (postsCount <= pageSize)
             {
-                return posts.GetRange(0, posts.Count - 1);
-            }
-            else if (page <= 1)
-            {
-                return posts.GetRange(0, pageSize--);
+                return await this.context.Posts.ToListAsync<Post>();
             }
             else
             {
-                return posts.GetRange(((page - 1) * pageSize) - 1, pageSize);
+                var posts = await this.context.Posts.ToListAsync<Post>();
+                return posts.GetRange(page * pageSize, --pageSize);
             }
         }
 

@@ -33,23 +33,20 @@ namespace BlogAPI.Services
 
         public async Task<List<Media>> GetMedia(int pageSize, int page)
         {
-            var media = await this.context.Media.ToListAsync<Media>();
+            var mediaCount = this.context.Media.Count<Media>();
 
-            if (media.Count == 0)
+            if (mediaCount == 0)
             {
                 return null;
             }
-            else if (media.Count <= pageSize)
+            else if (mediaCount <= pageSize)
             {
-                return media.GetRange(0, media.Count - 1);
-            }
-            else if (page <= 1)
-            {
-                return media.GetRange(0, pageSize--);
+                return await this.context.Media.ToListAsync<Media>();
             }
             else
             {
-                return media.GetRange(((page - 1) * pageSize) - 1, pageSize);
+                var media = await this.context.Media.ToListAsync<Media>();
+                return media.GetRange(page * pageSize, --pageSize);
             }
         }
 
