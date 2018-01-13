@@ -64,7 +64,7 @@ namespace BlogAPI
             }
 
             // Configure authentication
-            string domain = $"https://{this.Configuration["Auth0:Domain"]}";
+            string domain = $"{this.Configuration["Auth0:Protocol"]}{this.Configuration["Auth0:Domain"]}";
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
