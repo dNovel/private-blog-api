@@ -5,7 +5,9 @@
 namespace BlogAPI.UnitTests
 {
     using BlogAPI;
-    using BlogAPI.Contracts;
+    using BlogAPI.Models;
+    using BlogAPI.Services;
+    using BlogAPI.Services.Contracts;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NLog;
     using NLog.Extensions.Logging;
