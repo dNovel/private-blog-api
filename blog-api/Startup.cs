@@ -42,28 +42,11 @@ namespace BlogAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Configure environments
-            if (this.HostingEnvironment.IsDevelopment())
+            // Configure dbContext connection string
+            services.AddDbContext<BlogDbContext>(opt =>
             {
-                services.AddDbContext<BlogDbContext>(opt =>
-                {
-                    opt.UseSqlServer(this.Configuration.GetConnectionString("DbConnection"));
-                });
-            }
-            else if (this.HostingEnvironment.IsStaging())
-            {
-                services.AddDbContext<BlogDbContext>(opt =>
-                {
-                    opt.UseSqlServer(this.Configuration.GetConnectionString("DbConnection"));
-                });
-            }
-            else if (this.HostingEnvironment.IsProduction())
-            {
-                services.AddDbContext<BlogDbContext>(opt =>
-                {
-                    opt.UseSqlServer(this.Configuration.GetConnectionString("DbConnection"));
-                });
-            }
+                opt.UseSqlServer(this.Configuration.GetConnectionString("Default"));
+            });
 
             // Configure authentication
             string domain = $"{this.Configuration["Auth0:Protocol"]}{this.Configuration["Auth0:Domain"]}";
